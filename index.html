@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Сватбено меню</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f4ef;
+            color: #2c2c2c;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .form-card {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .question {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        select,
+        textarea,
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .guest-section {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #ddd;
+        }
+
+        .guest-section h2 {
+            margin-top: 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #333;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #status {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .required {
+            color: #c62828;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="form-card">
+
+        <h1>Сватбено меню</h1>
+
+        <form id="menuForm">
+
+            <!-- БРОЙ ГОСТИ -->
+
+            <div class="question">
+
+                <label for="guestCount">
+                    Брой гости <span class="required">*</span>
+                </label>
+
+                <select id="guestCount" required>
+                    <option value="">Изберете</option>
+                    <option value="1">1 гост</option>
+                    <option value="2">2 гости</option>
+                    <option value="3">3 гости</option>
+                    <option value="4">4 гости</option>
+                    <option value="5">5 гости</option>
+                    <option value="6">6 гости</option>
+                    <option value="7">7 гости</option>
+                    <option value="8">8 гости</option>
+                    <option value="9">9 гости</option>
+                    <option value="10">10 гости</option>
+                </select>
+
+            </div>
+
+
+            <!-- ТУК JS ЩЕ ДОБАВЯ ГОСТИТЕ -->
+
+            <div id="guestsContainer"></div>
+
+
+            <button type="submit" id="submitButton">
+                Изпрати
+            </button>
+
+            <div id="status"></div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // ========================================
+    // GOOGLE APPS SCRIPT URL
+    // ЩЕ ГО ПОСТАВИМ ПО-КЪСНО
+    // ========================================
+
+    const SCRIPT_URL = "PUT_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+
+
+    const guestCountSelect =
+        document.getElementById("guestCount");
+
+    const guestsContainer =
+        document.getElementById("guestsContainer");
+
+    const form =
+        document.getElementById("menuForm");
+
+    const submitButton =
+        document.getElementById("submitButton");
+
+    const status =
+        document.getElementById("status");
+
+
+    // ========================================
+    // КОГАТО СЕ ИЗБЕРЕ БРОЙ ГОСТИ
+    // ========================================
+
+    guestCountSelect.addEventListener("change", function () {
+
+        const guestCount = Number(this.value);
+
+        guestsContainer.innerHTML = "";
+
+
+        for (let i = 1; i <= guestCount; i++) {
+
+            const guestSection =
+                document.createElement("div");
+
+            guestSection.className =
+                "guest-section";
+
+
+            guestSection.innerHTML = `
+
+                <h2>Гост ${i}</h2>
+
+
+                <div class="question">
+
+                    <label>
+                        Салата
+                        <span class="required">*</span>
+                    </label>
+
+                    <select
+                        name="salad_${i}"
+                        required
+                    >
+
+                        <option value="">
+                            Изберете
+                        </option>
+
+                        <option value="Салата 1">
+                            Салата 1
+                        </option>
+
+                        <option value="Салата 2">
+                            Салата 2
+                        </option>
+
+                        <option value="Салата 3">
+                            Салата 3
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="question">
+
+                    <label>
+                        Основно
+                        <span class="required">*</span>
+                    </label>
+
+                    <select
+                        name="main_${i}"
+                        required
+                    >
+
+                        <option value="">
+                            Изберете
+                        </option>
+
+                        <option value="Основно 1">
+                            Основно 1
+                        </option>
+
+                        <option value="Основно 2">
+                            Основно 2
+                        </option>
+
+                        <option value="Основно 3">
+                            Основно 3
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="question">
+
+                    <label>
+                        Хранителни алергии или непоносимости?
+                    </label>
+
+                    <textarea
+                        name="allergies_${i}"
+                        placeholder="Напишете тук, ако има такива"
+                    ></textarea>
+
+                </div>
+
+            `;
+
+
+            guestsContainer.appendChild(
+                guestSection
+            );
+
+        }
+
+    });
+
+
+    // ========================================
+    // SUBMIT
+    // ========================================
+
+    form.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+
+        const guestCount =
+            Number(guestCountSelect.value);
+
+
+        const guests = [];
+
+
+        for (let i = 1; i <= guestCount; i++) {
+
+            guests.push({
+
+                guestNumber: i,
+
+                salad:
+                    document
+                        .querySelector(
+                            `[name="salad_${i}"]`
+                        )
+                        .value,
+
+                main:
+                    document
+                        .querySelector(
+                            `[name="main_${i}"]`
+                        )
+                        .value,
+
+                allergies:
+                    document
+                        .querySelector(
+                            `[name="allergies_${i}"]`
+                        )
+                        .value
+
+            });
+
+        }
+
+
+        const data = {
+
+            guestCount: guestCount,
+
+            guests: guests
+
+        };
+
+
+        submitButton.disabled = true;
+
+        status.textContent =
+            "Изпращане...";
+
+
+        try {
+
+            await fetch(SCRIPT_URL, {
+
+                method: "POST",
+
+                body:
+                    JSON.stringify(data)
+
+            });
+
+
+            status.textContent =
+                "Благодарим! Вашият избор беше изпратен успешно.";
+
+            form.reset();
+
+            guestsContainer.innerHTML = "";
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            status.textContent =
+                "Възникна грешка. Моля, опитайте отново.";
+
+        } finally {
+
+            submitButton.disabled = false;
+
+        }
+
+    });
+
+</script>
+
+</body>
+</html>
