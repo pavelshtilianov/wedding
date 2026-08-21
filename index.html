@@ -11,152 +11,414 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --cream: #f9f8f4;
+            --gold: #b69a43;
+            --gold-light: #d6c58e;
+            --green: #4f674e;
+            --text: #4f554e;
+        }
+
+        html,
         body {
             margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            background: #f3f1eb;
+
+            color: var(--text);
+
             font-family: Arial, sans-serif;
-            background: #f5f4ef;
-            color: #2c2c2c;
         }
 
-        .container {
-            max-width: 700px;
-            margin: 40px auto;
-            padding: 20px;
+
+        /* ========================================
+        ЦЯЛАТА ПОКАНА
+        ======================================== */
+
+        .wedding-page {
+
+            width: calc(100% - 40px);
+
+            max-width: 800px;
+
+            min-height: 100vh;
+
+            margin: 0 auto;
+
         }
 
-        .form-card {
-            background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+
+        /* ========================================
+        HEADER
+        ======================================== */
+
+        .wedding-header {
+
+            width: 100%;
+
+            aspect-ratio: 3.66 / 1;
+
+            background-image:
+                url("assets/header.jpg");
+
+            background-size: 100% 100%;
+
+            background-repeat: no-repeat;
+
         }
+
+
+        /* ========================================
+        BODY
+
+        ТУК СЕ ПОВТАРЯ ЦЕНТРАЛНАТА ЧАСТ
+        ======================================== */
+
+        .wedding-body {
+
+            width: 100%;
+
+            min-height: 460px;
+
+            background-image:
+                url("assets/body.jpg");
+
+            background-size: 100% auto;
+
+            background-repeat: repeat-y;
+
+            background-position: top center;
+
+        }
+
+
+        /* ========================================
+        FOOTER
+        ======================================== */
+
+        .wedding-footer {
+
+            width: 100%;
+
+            aspect-ratio: 3.36 / 1;
+
+            background-image:
+                url("assets/footer.jpg");
+
+            background-size: 100% 100%;
+
+            background-repeat: no-repeat;
+
+        }
+
+
+        /* ========================================
+        СЪДЪРЖАНИЕ НА ФОРМАТА
+        ======================================== */
+
+        .form-content {
+
+            width: min(100% - 40px, 620px);
+
+            margin: 0 auto;
+
+            padding: 0 20px 50px 20px;
+
+        }
+
+
+        /* ========================================
+        ЗАГЛАВИЕ
+        ======================================== */
 
         h1 {
-            margin-top: 0;
+
+            margin:
+                0
+                0
+                45px;
+
             text-align: center;
+
+            font-size: 42px;
+
+            font-weight: 400;
+
+            color: var(--green);
+
         }
 
+
+        /* ========================================
+        ВЪПРОСИ
+        ======================================== */
+
         .question {
-            margin-bottom: 25px;
+
+            margin-bottom: 30px;
+
         }
 
         label {
+
             display: block;
-            font-weight: bold;
+
             margin-bottom: 10px;
+
+            font-size: 17px;
+
+            font-weight: 500;
+
+            color: var(--green);
+
         }
+
+        .required {
+            color: #a65a4d;
+        }
+
+
+        /* ========================================
+        INPUTS
+        ======================================== */
 
         select,
         textarea,
         input {
+
             width: 100%;
-            padding: 12px;
+
+            padding:
+                14px
+                15px;
+
+            font-family: inherit;
+
             font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+
+            color: var(--text);
+
+            background:
+                rgba(255, 255, 255, 0.85);
+
+            border:
+                1px solid var(--gold-light);
+
+            border-radius: 3px;
+
+        }
+
+        select:focus,
+        textarea:focus,
+        input:focus {
+
+            outline: none;
+
+            border-color: var(--gold);
+
         }
 
         textarea {
-            min-height: 100px;
+
+            min-height: 110px;
+
             resize: vertical;
+
         }
 
+
+        /* ========================================
+        ГОСТ
+        ======================================== */
+
         .guest-section {
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 1px solid #ddd;
+
+            margin-top: 45px;
+
+            padding-top: 35px;
+
+            border-top:
+                1px solid var(--gold-light);
+
         }
 
         .guest-section h2 {
-            margin-top: 0;
+
+            margin:
+                0
+                0
+                30px;
+
+            text-align: center;
+
+            font-size: 28px;
+
+            font-weight: 400;
+
+            color: var(--green);
+
         }
 
+
+        /* ========================================
+        BUTTON
+        ======================================== */
+
         button {
+
             width: 100%;
-            padding: 15px;
-            margin-top: 20px;
-            border: none;
-            border-radius: 6px;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-            background: #333;
+
+            margin-top: 30px;
+
+            padding: 16px;
+
+            border:
+                1px solid var(--gold);
+
+            border-radius: 3px;
+
+            background:
+                var(--green);
+
             color: white;
+
+            font-size: 17px;
+
+            cursor: pointer;
+
         }
 
         button:hover {
-            opacity: 0.9;
+
+            background:
+                #40563f;
+
         }
 
         button:disabled {
-            opacity: 0.5;
+
+            opacity: 0.6;
+
             cursor: not-allowed;
+
         }
+
+
+        /* ========================================
+        STATUS
+        ======================================== */
 
         #status {
-            text-align: center;
+
+            min-height: 25px;
+
             margin-top: 20px;
-            font-weight: bold;
+
+            text-align: center;
+
+            color: var(--green);
+
         }
 
-        .required {
-            color: #c62828;
+
+        /* ========================================
+        MOBILE
+        ======================================== */
+
+        @media (max-width: 600px) {
+
+            .form-content {
+
+                width:
+                    min(100% - 24px, 620px);
+
+                padding:
+                    10px
+                    20px
+                    40px;
+
+            }
+
+            h1 {
+
+                font-size: 34px;
+
+                margin-bottom: 35px;
+
+            }
+
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="wedding-page">
 
-    <div class="form-card">
+    <div class="wedding-header"></div>
 
-        <h1>Сватбено меню</h1>
+    <main class="wedding-body">
 
-        <form id="menuForm">
+        <div class="form-content">
 
-            <!-- БРОЙ ГОСТИ -->
+            <h1>Сватбено меню</h1>
 
-            <div class="question">
+            <form id="menuForm">
 
-                <label for="guestCount">
-                    Брой гости <span class="required">*</span>
-                </label>
+                <div class="question">
 
-                <select id="guestCount" required>
-                    <option value="">Изберете</option>
-                    <option value="1">1 гост</option>
-                    <option value="2">2 гости</option>
-                    <option value="3">3 гости</option>
-                    <option value="4">4 гости</option>
-                    <option value="5">5 гости</option>
-                    <option value="6">6 гости</option>
-                    <option value="7">7 гости</option>
-                    <option value="8">8 гости</option>
-                    <option value="9">9 гости</option>
-                    <option value="10">10 гости</option>
-                </select>
+                    <label for="guestCount">
+                        Брой гости
+                        <span class="required">*</span>
+                    </label>
 
-            </div>
+                    <select id="guestCount" required>
 
+                        <option value="">
+                            Изберете
+                        </option>
 
-            <!-- ТУК JS ЩЕ ДОБАВЯ ГОСТИТЕ -->
+                        <option value="1">1 гост</option>
+                        <option value="2">2 гости</option>
+                        <option value="3">3 гости</option>
+                        <option value="4">4 гости</option>
+                        <option value="5">5 гости</option>
+                        <option value="6">6 гости</option>
+                        <option value="7">7 гости</option>
+                        <option value="8">8 гости</option>
+                        <option value="9">9 гости</option>
+                        <option value="10">10 гости</option>
 
-            <div id="guestsContainer"></div>
+                    </select>
 
+                </div>
 
-            <button type="submit" id="submitButton">
-                Изпрати
-            </button>
+                <div id="guestsContainer"></div>
 
-            <div id="status"></div>
+                <button
+                    type="submit"
+                    id="submitButton"
+                >
+                    Изпрати
+                </button>
 
-        </form>
+                <div id="status"></div>
 
-    </div>
+            </form>
+
+        </div>
+
+    </main>
+
+    <div class="wedding-footer"></div>
 
 </div>
-
 
 <script>
 
