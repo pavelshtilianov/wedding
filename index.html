@@ -146,10 +146,7 @@
         ======================================== */
 
         h1 {
-            margin:
-                0
-                0
-                45px;
+            margin: 0;
 
             text-align: center;
 
@@ -253,12 +250,7 @@
 
         .guest-section {
 
-            margin-top: 45px;
-
-            padding-top: 35px;
-
-            border-top:
-                1px solid var(--gold-light);
+            padding-top: 25px;
 
         }
 
@@ -330,6 +322,26 @@
 
         }
 
+        .add-guest-button {
+
+            margin-top: 10px;
+
+            background: transparent;
+
+            color: var(--green);
+
+            border:
+                1px solid var(--gold);
+
+        }
+
+        .add-guest-button:hover {
+
+            background:
+                rgba(79, 103, 78, 0.06);
+
+        }
+
 
         /* ========================================
         STATUS
@@ -347,6 +359,50 @@
 
         }
 
+        /* ========================================
+        DIVIDER
+        ======================================== */
+
+        .guest-divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: auto;
+            width: 80%;
+        }
+
+        .guest-divider::before,
+        .guest-divider::after {
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background: var(--gold-light);
+        }
+
+        .guest-divider-flowers {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+
+            color: var(--green-light);
+
+            font-family: Georgia, serif;
+            font-size: 20px;
+
+            line-height: 1;
+        }
+
+        .guest-divider-flowers span:nth-child(2) {
+            color: var(--green);
+            font-size: 25px;
+        }
+
+        #menuForm {
+            padding-top: 10px;
+        }
 
         /* ========================================
         MOBILE
@@ -378,6 +434,9 @@
                 font-size: 32px;
             }
 
+            .wedding-page {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -396,35 +455,16 @@
 
             <form id="menuForm">
 
-                <div class="question">
-
-                    <label for="guestCount">
-                        Брой гости
-                        <span class="required">*</span>
-                    </label>
-
-                    <select id="guestCount" required>
-
-                        <option value="">
-                            Изберете
-                        </option>
-
-                        <option value="1">1 гост</option>
-                        <option value="2">2 гости</option>
-                        <option value="3">3 гости</option>
-                        <option value="4">4 гости</option>
-                        <option value="5">5 гости</option>
-                        <option value="6">6 гости</option>
-                        <option value="7">7 гости</option>
-                        <option value="8">8 гости</option>
-                        <option value="9">9 гости</option>
-                        <option value="10">10 гости</option>
-
-                    </select>
-
-                </div>
 
                 <div id="guestsContainer"></div>
+
+                <button
+                    type="button"
+                    id="addGuestButton"
+                    class="add-guest-button"
+                >
+                    + Добави гост
+                </button>
 
                 <button
                     type="submit"
@@ -454,9 +494,8 @@
 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrzSxPca8a-LHEQZGZKWEYxC6ae4xkOLEWy1SJGQL62VJTWMhAZ9dPj1LTlZCOFVd0rA/exec";
 
-
-    const guestCountSelect =
-        document.getElementById("guestCount");
+    const addGuestButton =
+        document.getElementById("addGuestButton");
 
     const guestsContainer =
         document.getElementById("guestsContainer");
@@ -475,117 +514,157 @@
     // КОГАТО СЕ ИЗБЕРЕ БРОЙ ГОСТИ
     // ========================================
 
-    guestCountSelect.addEventListener("change", function () {
-
-        const guestCount = Number(this.value);
-
-        guestsContainer.innerHTML = "";
+    function addGuest(scrollToGuest = false) {
+        const guestNumber =
+            guestsContainer.children.length + 1;
 
 
-        for (let i = 1; i <= guestCount; i++) {
+        const guestSection =
+            document.createElement("div");
 
-            const guestSection =
+
+        guestSection.className =
+            "guest-section";
+
+
+        guestSection.innerHTML = `
+
+            <div class="question">
+
+                <label>
+                    Име
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    name="name_${guestNumber}"
+                    required
+                    autocomplete="name"
+                >
+
+            </div>
+
+
+            <div class="question">
+
+                <label>
+                    Салата
+                    <span class="required">*</span>
+                </label>
+
+                <select
+                    name="salad_${guestNumber}"
+                    required
+                >
+
+                    <option value="">
+                        Изберете
+                    </option>
+
+                    <option value="Салата 1">
+                        Салата 1
+                    </option>
+
+                    <option value="Салата 2">
+                        Салата 2
+                    </option>
+
+                    <option value="Салата 3">
+                        Салата 3
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="question">
+
+                <label>
+                    Основно
+                    <span class="required">*</span>
+                </label>
+
+                <select
+                    name="main_${guestNumber}"
+                    required
+                >
+
+                    <option value="">
+                        Изберете
+                    </option>
+
+                    <option value="Основно 1">
+                        Основно 1
+                    </option>
+
+                    <option value="Основно 2">
+                        Основно 2
+                    </option>
+
+                    <option value="Основно 3">
+                        Основно 3
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="question">
+
+                <label>
+                    Хранителни алергии или непоносимости?
+                </label>
+
+                <textarea
+                    name="allergies_${guestNumber}"
+                    placeholder="Напишете тук, ако има такива"
+                ></textarea>
+
+            </div>
+
+        `;
+
+        if (guestsContainer.children.length >= 0) {
+
+            const divider =
                 document.createElement("div");
 
-            guestSection.className =
-                "guest-section";
+            divider.className =
+                "guest-divider";
 
-
-            guestSection.innerHTML = `
-
-                <h2>Гост ${i}</h2>
-
-
-                <div class="question">
-
-                    <label>
-                        Салата
-                        <span class="required">*</span>
-                    </label>
-
-                    <select
-                        name="salad_${i}"
-                        required
-                    >
-
-                        <option value="">
-                            Изберете
-                        </option>
-
-                        <option value="Салата 1">
-                            Салата 1
-                        </option>
-
-                        <option value="Салата 2">
-                            Салата 2
-                        </option>
-
-                        <option value="Салата 3">
-                            Салата 3
-                        </option>
-
-                    </select>
-
+            divider.innerHTML = `
+                <div class="guest-divider-flowers">
+                    <span>❀</span>
+                    <span>✿</span>
+                    <span>❀</span>
                 </div>
-
-
-                <div class="question">
-
-                    <label>
-                        Основно
-                        <span class="required">*</span>
-                    </label>
-
-                    <select
-                        name="main_${i}"
-                        required
-                    >
-
-                        <option value="">
-                            Изберете
-                        </option>
-
-                        <option value="Основно 1">
-                            Основно 1
-                        </option>
-
-                        <option value="Основно 2">
-                            Основно 2
-                        </option>
-
-                        <option value="Основно 3">
-                            Основно 3
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="question">
-
-                    <label>
-                        Хранителни алергии или непоносимости?
-                    </label>
-
-                    <textarea
-                        name="allergies_${i}"
-                        placeholder="Напишете тук, ако има такива"
-                    ></textarea>
-
-                </div>
-
             `;
 
-
-            guestsContainer.appendChild(
-                guestSection
-            );
-
+            guestsContainer.appendChild(divider);
         }
 
-    });
+        guestsContainer.appendChild(
+            guestSection
+        );
 
+        if (scrollToGuest) {
+            guestSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+
+    }
+
+    addGuest();
+
+    addGuestButton.addEventListener(
+        "click",
+        addGuest
+    );
 
     // ========================================
     // SUBMIT
@@ -595,9 +674,8 @@
 
         event.preventDefault();
 
-
         const guestCount =
-            Number(guestCountSelect.value);
+            guestsContainer.children.length;
 
 
         const guests = [];
@@ -608,6 +686,13 @@
             guests.push({
 
                 guestNumber: i,
+
+                name:
+                    document
+                        .querySelector(
+                            `[name="name_${i}"]`
+                        )
+                        .value,
 
                 salad:
                     document
@@ -633,7 +718,6 @@
             });
 
         }
-
 
         const data = {
 
@@ -674,6 +758,8 @@
             form.reset();
 
             guestsContainer.innerHTML = "";
+
+            addGuest();
 
 
         } catch (error) {
