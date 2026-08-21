@@ -70,7 +70,7 @@
 
             width: 100%;
 
-            aspect-ratio: 3.66 / 1;
+            aspect-ratio: 4 / 1;
 
             background-image:
                 url("assets/header.jpg");
@@ -102,6 +102,8 @@
             background-repeat: repeat-y;
 
             background-position: top center;
+
+            margin-top: -23px;
 
         }
 
@@ -172,7 +174,7 @@
 
         .question {
 
-            margin-bottom: 30px;
+            margin-bottom: 25px;
 
         }
 
@@ -324,7 +326,7 @@
 
         .add-guest-button {
 
-            margin-top: 10px;
+            margin-top: 0;
 
             background: transparent;
 
@@ -405,6 +407,80 @@
         }
 
         /* ========================================
+        SUCCESS SCREEN
+        ======================================== */
+
+        .success-screen {
+            display: none;
+
+            min-height: 480px;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 60px 20px;
+        }
+
+        .success-screen.visible {
+            display: flex;
+        }
+
+        .success-content {
+            max-width: 420px;
+        }
+
+        .success-decoration {
+            margin-bottom: 25px;
+
+            color: var(--green-light);
+
+            font-family: Georgia, serif;
+
+            font-size: 38px;
+
+            line-height: 1;
+        }
+
+        .success-screen h2 {
+            margin: 0 0 22px;
+
+            font-family:
+                "Cormorant Garamond",
+                Georgia,
+                serif;
+
+            font-size: 48px;
+
+            font-weight: 500;
+
+            line-height: 1;
+
+            color: var(--green);
+        }
+
+        .success-message {
+            margin: 0;
+
+            font-size: 17px;
+
+            line-height: 1.7;
+
+            color: var(--text);
+        }
+
+        .success-note {
+            margin: 28px 0 0;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            color: var(--green-light);
+        }        
+
+        /* ========================================
         MOBILE
         ======================================== */
 
@@ -436,6 +512,16 @@
 
             .wedding-page {
                 width: 100%;
+            }
+
+            .success-screen {
+                min-height: 400px;
+
+                padding: 40px 20px;
+            }
+
+            .success-screen h2 {
+                font-size: 42px;
             }
         }
     </style>
@@ -477,6 +563,35 @@
 
             </form>
 
+            <div
+                id="successScreen"
+                class="success-screen"
+            >
+
+                <div class="success-content">
+
+                    <div class="success-decoration">
+                        ❀
+                    </div>
+
+                    <h2>
+                        Благодарим!
+                    </h2>
+
+                    <p class="success-message">
+                        Вашият избор за менюто<br>
+                        беше успешно изпратен.
+                    </p>
+
+                    <p class="success-note">
+                        Ако се наложи да направите промяна, изпратете го 
+                           отново със забележка или се свържете с нас.
+                    </p>
+
+                </div>
+
+            </div>
+
         </div>
 
     </main>
@@ -502,6 +617,9 @@
 
     const form =
         document.getElementById("menuForm");
+    
+    const successScreen =
+        document.getElementById("successScreen");
 
     const submitButton =
         document.getElementById("submitButton");
@@ -516,7 +634,7 @@
 
     function addGuest(scrollToGuest = false) {
         const guestNumber =
-            guestsContainer.children.length + 1;
+            guestsContainer.querySelectorAll(".guest-section").length + 1;
 
 
         const guestSection =
@@ -615,36 +733,33 @@
             <div class="question">
 
                 <label>
-                    Хранителни алергии или непоносимости?
+                    Забележка
                 </label>
 
                 <textarea
-                    name="allergies_${guestNumber}"
-                    placeholder="Напишете тук, ако има такива"
+                    name="note_${guestNumber}"
+                    placeholder="Напишете тук, ако има нещо важно (алергии, непоносимости, предпочитания и т.н.)"
                 ></textarea>
 
             </div>
 
         `;
 
-        if (guestsContainer.children.length >= 0) {
+        const divider =
+            document.createElement("div");
 
-            const divider =
-                document.createElement("div");
+        divider.className =
+            "guest-divider";
 
-            divider.className =
-                "guest-divider";
+        divider.innerHTML = `
+            <div class="guest-divider-flowers">
+                <span>❀</span>
+                <span>✿</span>
+                <span>❀</span>
+            </div>
+        `;
 
-            divider.innerHTML = `
-                <div class="guest-divider-flowers">
-                    <span>❀</span>
-                    <span>✿</span>
-                    <span>❀</span>
-                </div>
-            `;
-
-            guestsContainer.appendChild(divider);
-        }
+        guestsContainer.appendChild(divider);
 
         guestsContainer.appendChild(
             guestSection
@@ -675,7 +790,7 @@
         event.preventDefault();
 
         const guestCount =
-            guestsContainer.children.length;
+            guestsContainer.querySelectorAll(".guest-section").length;
 
 
         const guests = [];
@@ -708,10 +823,10 @@
                         )
                         .value,
 
-                allergies:
+                note:
                     document
                         .querySelector(
-                            `[name="allergies_${i}"]`
+                            `[name="note_${i}"]`
                         )
                         .value
 
@@ -752,15 +867,9 @@
             
             });
 
-            status.textContent =
-                "Благодарим! Вашият избор беше изпратен успешно.";
+            form.style.display = "none";
 
-            form.reset();
-
-            guestsContainer.innerHTML = "";
-
-            addGuest();
-
+            successScreen.classList.add("visible");
 
         } catch (error) {
 
