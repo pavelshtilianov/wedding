@@ -252,6 +252,8 @@
 
         .guest-section {
 
+            position: relative;
+
             padding-top: 25px;
 
         }
@@ -480,6 +482,53 @@
             color: var(--green-light);
         }        
 
+        .remove-guest-button {
+            position: absolute;
+
+            top: 18px;
+            right: 0;
+
+            width: 28px;
+            height: 28px;
+
+            margin: 0;
+            padding: 0;
+
+            border: none;
+
+            background: transparent;
+
+            color: var(--gold);
+
+            font-family: Arial, sans-serif;
+
+            font-size: 28px;
+            font-weight: 300;
+            line-height: 28px;
+
+            cursor: pointer;
+
+            opacity: 0.7;
+
+            transition:
+                opacity 0.2s,
+                transform 0.2s;
+        }
+
+        .remove-guest-button:hover {
+            background: transparent;
+
+            box-shadow: none;
+
+            opacity: 1;
+
+            transform: scale(1.1);
+        }
+
+        .remove-guest-button:active {
+            transform: scale(0.95);
+        }
+
         /* ========================================
         MOBILE
         ======================================== */
@@ -651,6 +700,17 @@
 
         guestSection.innerHTML = `
 
+            ${guestNumber > 1 ? `
+                <button
+                    type="button"
+                    class="remove-guest-button"
+                    aria-label="Изтрий гост"
+                    title="Изтрий гост"
+                >
+                    ×
+                </button>
+            ` : ""}
+
             <div class="question">
 
                 <label>
@@ -766,6 +826,36 @@
             guestSection
         );
 
+        const removeGuestButton =
+            guestSection.querySelector(
+                ".remove-guest-button"
+            );
+
+        if (removeGuestButton) {
+
+            removeGuestButton.addEventListener(
+                "click",
+                function () {
+
+                    const divider =
+                        guestSection.previousElementSibling;
+
+                    guestSection.remove();
+
+                    if (
+                        divider &&
+                        divider.classList.contains(
+                            "guest-divider"
+                        )
+                    ) {
+                        divider.remove();
+                    }
+
+                }
+            );
+
+        }
+        
         if (scrollToGuest) {
             guestSection.scrollIntoView({
                 behavior: "smooth",
@@ -779,7 +869,9 @@
 
     addGuestButton.addEventListener(
         "click",
-        addGuest
+        function () {
+            addGuest(true);
+        }
     );
 
     // ========================================
@@ -790,50 +882,44 @@
 
         event.preventDefault();
 
-        const guestCount =
-            guestsContainer.querySelectorAll(".guest-section").length;
+        const guestSections =
+            guestsContainer.querySelectorAll(".guest-section");
 
 
         const guests = [];
 
 
-        for (let i = 1; i <= guestCount; i++) {
+        guestSections.forEach(function (section) {
 
             guests.push({
 
-                guestNumber: i,
-
                 name:
-                    document
-                        .querySelector(
-                            `[name="name_${i}"]`
-                        )
+                    section
+                        .querySelector('[name^="name_"]')
                         .value,
 
                 salad:
-                    document
-                        .querySelector(
-                            `[name="salad_${i}"]`
-                        )
+                    section
+                        .querySelector('[name^="salad_"]')
                         .value,
 
                 main:
-                    document
-                        .querySelector(
-                            `[name="main_${i}"]`
-                        )
+                    section
+                        .querySelector('[name^="main_"]')
                         .value,
 
                 note:
-                    document
-                        .querySelector(
-                            `[name="note_${i}"]`
-                        )
+                    section
+                        .querySelector('[name^="note_"]')
                         .value
 
             });
 
-        }
+        });
+
+
+        const guestCount =
+            guests.length;
 
         const data = {
 
