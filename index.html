@@ -6,6 +6,7 @@
 
     <title>Сватбено меню</title>
 
+    <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -101,6 +102,8 @@
 
             background-position: top center;
 
+            margin-top: -1px;
+
         }
 
 
@@ -134,7 +137,7 @@
 
             margin: 0 auto;
 
-            padding: 0 20px 50px 20px;
+            padding: 0 20px;
 
         }
 
@@ -348,19 +351,14 @@
         /* ========================================
         STATUS
         ======================================== */
-
         #status {
-
-            min-height: 25px;
-
-            margin-top: 20px;
-
             text-align: center;
-
             color: var(--green);
-
         }
 
+        #status:not(:empty) {
+            margin-top: 20px;
+        }
         /* ========================================
         DIVIDER
         ======================================== */
@@ -531,7 +529,7 @@
         MOBILE
         ======================================== */
 
-        @media (max-width: 600px) {
+        @media (max-width: 800px) {
 
             #menuForm {
                 padding: 10px 20px 0;
@@ -552,8 +550,6 @@
             h1 {
 
                 font-size: 44px;
-
-                margin-bottom: 35px;
 
             }
 
